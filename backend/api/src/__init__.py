@@ -43,6 +43,7 @@ def create_app(database='mobilegaming_development', testing = False, debug = Tru
         earnings_dicts = [earning.to_json(cursor) for earning in earnings]
         return json.dumps(earnings_dicts, default = str)
 
+    # change to /games/<id>/rating
     @app.route('/games/rating/<id>')
     def game_with_earnings_ratings(id):
         conn = db.get_db()

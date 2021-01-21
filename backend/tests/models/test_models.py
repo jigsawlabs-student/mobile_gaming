@@ -7,6 +7,8 @@ import api.src.db as db
 import api.src.models as models
 from  tests.data.builder_data import (s3d_rating, s3d_earnings, s3d_details, s3d_record_date, s3d_rank_type, s3d_input, s3d_lower, s3d_higher, TS_details, amongus_ios)
 
+# seems like these functions are testing more the adapter than the model, let's discuss
+# the get_sibling functions are not tested here, and they deserve to be
 
 @pytest.fixture()
 def test_conn():

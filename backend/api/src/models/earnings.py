@@ -21,6 +21,7 @@ class Earnings():
         record = cursor.fetchone()
         return db.build_from_record(models.Game, record)
 
+    # perhaps this should be moved to the adapter/builder class
     def check_update_revenue_downloads(self, TS_details, conn, cursor):
         if self.revenue < TS_details['humanized_worldwide_last_month_revenue']['revenue']: 
             self.revenue, self.update_rev = TS_details['humanized_worldwide_last_month_revenue']['revenue'], True

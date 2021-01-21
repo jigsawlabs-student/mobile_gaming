@@ -33,7 +33,7 @@ class Game():
         earnings = db.build_from_record(models.Earnings, record)
         earnings.check_update_revenue_downloads(TS_details, conn, cursor)
         return earnings
-    
+
     def get_sibling(self, name, os, cursor):
         new_name = db.strip_last_specialchar(name)
         os_bar = {'android':'iOS', 'iOS':'android'}
@@ -42,6 +42,7 @@ class Game():
         record = cursor.fetchone()
         return db.build_from_record(models.Game, record)
 
+# these two functions below, seem to belong in the builder class
     def try_sibling_params_if_None(self, conn, cursor):
         try: sib = self.get_sibling(self.name, self.platform, cursor)
         except: cursor.execute('rollback;')

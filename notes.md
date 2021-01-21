@@ -7,3 +7,6 @@
 # 4. Add the settings.py file, which references .env (which is in .gitignore)
 # 5. Not sure what the tests/adapters/reader.py file is about
 # 6. Restructure the frontend, add tests
+# 7. test_models.py
+    # seems like these functions are testing more the adapter than the model, let's discuss
+    # the get_sibling functions are not tested here, and they deserve to be
