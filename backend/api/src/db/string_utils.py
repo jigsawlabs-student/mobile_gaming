@@ -19,7 +19,7 @@ def filter_name(name):
     return ''.join(filter(lambda x: x in string.printable, name))
 
 def strip_last_specialchar(s):
-    if not s[-1].isalpha():
+    if not s[-1].isalpha(): 
         return s[:-1]
     else:
         return s
@@ -30,6 +30,7 @@ def date_adding_formatter(date_str='2021-1-1', days=3):
     return date_new
 
 def TS_API_null_fix(k,v):
+    # can coere via bool('')
     if v is '': v = False   # TowerSensor_API uses '' when false, fix        
     if k == 'shows_ads':
         if v == None: v = False # TowerSensor_API uses null when false, fix

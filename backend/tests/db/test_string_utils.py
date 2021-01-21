@@ -41,3 +41,5 @@ def test_add_to_date_strip_leading_zeroes():
     assert date_adding_formatter(date2,days) == '2001-2-7'
     assert date_adding_formatter(date1,0) == '2020-1-2'
     
+
+# all great, makes me smile

@@ -18,7 +18,7 @@ class GameBuilder:
         self.IGDB_Client = adapters.IGDB_Client()
         self.RAWG_Client = adapters.RAWG_Client()
  
-    attributes = ['name', 'platform', 'publisher', 'release_date', 'genre', 'game_engine']
+    attributes = ['name', 'platform', 'publisher', 'release_date', 'genre', 'game_engine'] # move to top of class
 
     def select_attributes(self, TS_details):
         name_filtered = db.filter_name(db.encode_utf8(TS_details.get('humanized_name','')))
@@ -37,11 +37,12 @@ class GameBuilder:
             selected['game_engine'] = self.IGDB_Client.find_game_engine(game_name)  # limited query allowance, tap when DNE          
             game = db.save(models.Game(**selected), conn, cursor)
             game.exists = False
+            # I know this is based on my pattern, but I prefer  moving  to the Builder class, ask me about this.
         game.try_sibling_params_if_None(conn, cursor)
         return game
 
 class EarningsBuilder:
-    attributes = ['price', 'inapp', 'shows_ads', 'revenue', 'downloads']
+    attributes = ['price', 'inapp', 'shows_ads', 'revenue', 'downloads'] # capitalize
 
     def select_attributes(self, TS_details):
         price, inapp, shows_ads, revenue, downloads = TS_details['price'], TS_details['in_app_purchases'], TS_details['shows_ads'], TS_details['humanized_worldwide_last_month_revenue']['revenue'], TS_details['humanized_worldwide_last_month_downloads']['downloads']
@@ -51,6 +52,7 @@ class EarningsBuilder:
         earnings_attributes = self.select_attributes(TS_details)
         earnings = models.Earnings(**earnings_attributes)
         earnings.game_id = game.id 
+        # let'ss move all saves to the database to the builder class
         earnings = db.save(earnings, conn, cursor)
         return earnings
 
@@ -58,7 +60,7 @@ class RatingBuilder:
     def __init__(self):
         self.RAWG_Client = adapters.RAWG_Client()
 
-    attributes = ['metacritic', 'TS_rating', 'rank_type', 'ranking', 'date_created']
+    attributes = ['metacritic', 'TS_rating', 'rank_type', 'ranking', 'date_created'] # move to top of class, make constant
 
     def select_attributes(self, TS_details, search_date, rank_type):
         TS_rating, ranking_type, ranking, date_created = TS_details['rating'], rank_type, TS_details['rank'], search_date
@@ -72,3 +74,5 @@ class RatingBuilder:
         if not rating:
             rating = db.save(models.Rating(**selected), conn, cursor)
         return rating
+
+

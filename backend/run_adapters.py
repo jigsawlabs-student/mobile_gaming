@@ -7,6 +7,7 @@ class RequestAndBuild:
     def __init__(self):
         self.TowerSensor_Client = adapters.TowerSensor_Client()
         self.builder = adapters.Builder()
+        # change to reference environmental variables, also connect to database in the db file, to keep DRY
         self.conn = psycopg2.connect(database = 'mobilegaming_development', 
                 user = 'postgres', 
                 password = 'postgres')

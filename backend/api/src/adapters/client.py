@@ -1,13 +1,15 @@
 import requests
 
 class RAWG_Client:
-    api_key = '<insert key>'
+    api_key = '<insert key>' # all caps for constants API_KEY 
     ROOT_URL = 'https://api.rawg.io/api'
 
     def auth_params(self):
         return {'key': self.api_key}
    
-    def full_params(self, query_params = {"dates": "2019-09-01,2019-09-30", "platforms" : 18}):
+    def full_params(self, query_params = {"dates": "2019-09-01,2019-09-30", "platforms" : 18}): 
+        # JK: is dates a date range?  
+        #change to date range
         params = self.auth_params().copy()
         params.update(query_params)
         return params
@@ -22,6 +24,8 @@ class RAWG_Client:
             return None
         elif not game['name'] == name:
             return None
+        # change above to
+        # if not game or game['name'] != name: return None 
         release_date = game.get('released',[])
         if not release_date:
             return None
@@ -33,6 +37,7 @@ class RAWG_Client:
             return None
         elif not game['name'] == name:
             return None
+        # thiss is a repeat of release data -> make DRY
         metacritic = game.get('metacritic',[])
         if not metacritic:
             return None
@@ -41,7 +46,7 @@ class RAWG_Client:
 class IGDB_Client:
     def __init__(self, client_id = '<insert cliend_id>', client_secret = '<insert client secret>'):
 
-        self.client_id = client_id
+        self.client_id = client_id # I prefer the pattern of making these constants like you did above, but whatever's easier, just be consistent.
         self.client_secret = client_secret
 
     ROOT_URL = 'https://api.igdb.com/v4/'
@@ -71,6 +76,7 @@ class IGDB_Client:
         game = self.search_games(query_params = {'data': f'f game_engines; w name = "{name}"; limit 1;'})
         if not game:
             return 'unknown'
+        # be consistent in returning None, like you did in previous methods, if you can
         engine_id = game[0].get('game_engines',[])
         if not engine_id:
             return 'unknown'
@@ -86,13 +92,14 @@ class IGDB_Client:
 class TowerSensor_Client:
     def __init__(self, user_agent = '<insert user parameters>', x_csrf_token = '<insert user token>'):
 
-        self.user_agent = user_agent
+        self.user_agent = user_agent # change to constants
         self.x_csrf_token = x_csrf_token
 
-    ROOT_URL_iOS = 'https://sensortower.com/api/ios/rankings/get_category_rankings'
+    ROOT_URL_iOS = 'https://sensortower.com/api/ios/rankings/get_category_rankings' # move to top of file
     ROOT_URL_android = 'https://sensortower.com/api/android/rankings/get_category_rankings'
 
-    iOS_query_params = {'category' : 6014, 'country': 'US', 'date': '2020-12-28T00:00:00.000Z', 'device': 'IPHONE', 'limit': 100, 'offset' : 0}
+# move below params to inside of function where they are used (get rankings).
+    iOS_query_params = {'category' : 6014, 'country': 'US', 'date': '2020-12-28T00:00:00.000Z', 'device': 'IPHONE', 'limit': 100, 'offset' : 0} 
     android_query_params = {'category' : 'game', 'country': 'US', 'date': '2020-12-28T00:00:00.000Z', 'device': 'MOBILE', 'limit': 100, 'offset' : 0}
 
     def auth_params(self):
@@ -104,6 +111,8 @@ class TowerSensor_Client:
         return params
 
     def get_rankings(self, platform='iOS', date='2020-12-28', limit=100):
+        # perhaps make a dictionary -> config = {'iOS': (self.ios_query_params, self,ROOT_URL_iOS), 'android': ()}
+        # query, root = params[platform]
         if platform == 'iOS':
             query = self.iOS_query_params
             root = self.ROOT_URL_iOS

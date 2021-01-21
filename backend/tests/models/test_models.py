@@ -10,6 +10,7 @@ from  tests.data.builder_data import (s3d_rating, s3d_earnings, s3d_details, s3d
 
 @pytest.fixture()
 def test_conn():
+    # reference in  user and pasword from .env/settings.py
     test_conn = psycopg2.connect(dbname = 'mobilegaming_test', 
             user = 'postgres', password = 'postgres')
     cursor = test_conn.cursor()
@@ -72,6 +73,8 @@ def test_try_sibling_params_if_None_update(test_conn):
     amongus_android_objs = builder.run(TS_details, '2020-12-28', 'top free', test_conn, test_cursor)
     amongus_ios_objs_2nd = builder.run(amongus_ios, '2020-12-20', 'top free', test_conn, test_cursor)
 
+
+    # just retrieve from dict once -> game = game_objs['game']
     assert amongus_ios_objs_2nd['game'].genre == 'action'
     assert amongus_ios_objs_2nd['game'].game_engine == 'Unity'
     assert amongus_ios_objs_2nd['game'].release_date == datetime.date(2018, 7, 25)

@@ -2,6 +2,8 @@ from flask import current_app
 from flask import g
 import psycopg2
 
+
+# load from .env file
 conn = psycopg2.connect(database = 'mobilegaming_development', user = 'postgres', password = 'postgres')
 cursor = conn.cursor()
 
@@ -114,25 +116,25 @@ def update_engine_reldate(obj, conn, cursor):
                     WHERE id = {obj.id};"""
     cursor.execute(game_str)
     conn.commit()
-    return 
+    return #remove return
 
 def update_genre(obj, conn, cursor):
     game_str = f"""UPDATE {obj.__table__} SET genre = '{obj.genre}'
                     WHERE id = {obj.id};"""
     cursor.execute(game_str)
     conn.commit()
-    return
+    return # remove return
 
 def update_revenue(obj, conn, cursor):
     earnings_str = f"""UPDATE earnings SET revenue = '{obj.revenue}'
                     WHERE id = {obj.id};"""
     cursor.execute(earnings_str)
     conn.commit()
-    return
+    return # remove return
 
 def update_downloads(obj, conn, cursor):
     earnings_str = f"""UPDATE earnings SET downloads = '{obj.downloads}'
                     WHERE id = {obj.id};"""
     cursor.execute(earnings_str)
     conn.commit()
-    return
+    return # remove return

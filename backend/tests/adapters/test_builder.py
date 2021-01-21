@@ -11,6 +11,7 @@ from tests.data.builder_data import (TS_details, search_date, rank_type)
 
 @pytest.fixture()
 def test_conn():
+    # reference via user and password via .env
     test_conn = psycopg2.connect(dbname = 'mobilegaming_test', 
             user = 'postgres', password = 'postgres')
     cursor = test_conn.cursor()
@@ -24,6 +25,7 @@ def test_conn():
 def test_with_non_existing_game(test_conn):
     test_cursor = test_conn.cursor()
     builder = adapters.Builder()
+    # great that have TS_details in other file, but move search date and rank_type into here
     game_objs = builder.run(TS_details, search_date, rank_type, test_conn, test_cursor)
     game = game_objs['game']
     earnings = game_objs['earnings']

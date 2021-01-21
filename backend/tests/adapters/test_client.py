@@ -19,3 +19,7 @@ def test_find_game_engine_hit_no_engine():
     ig = adapters.IGDB_Client()
     engine = ig.find_game_engine('Candy Crush Saga')
     assert engine == None
+
+
+# overall I'm unclear what these tests do for you.  what's the point in checking a game is not there?  
+# Is it that your checking the connection? Then perhaps just test that get status code of 200.
